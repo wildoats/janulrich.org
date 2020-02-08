@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+    <head>
+        <title>Canadian Greenhouse Gas Emissions</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="author" content="Jan Ulrich">
+        <meta name="description" content="Economic comparison of greenhouse gas emissions">
+        <script src="raphael-min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="g.raphael.js" type="text/javascript" charset="utf-8"></script>
+        <script src="g.bar.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+            window.onload = function () {
+                var r = Raphael("holder"),
+					r2 = Raphael("holder2"),
+					axisx = ["Clothing Industries","Computer and Electronic Products Industries","Tobacco Products Industries","Construction","Leather and Allied Products Industries","Miscellaneous Manufacturing","Machinery Industries","Motor Vehicle Brake System Manufacturing","Motor Vehicle Electrical and Electronic Equipment Manufacturing","Motor Vehicle Seating and Interior Trim Manufacturing","Motor Vehicle Industry","Motor Vehicle Gasoline Engine and Engine Parts Manufacturing","Printing and Related Support Activities","Breweries Industries","Furniture and Related Products Industries","Motor Vehicle Metal Stamping","Electrical Equipment and Components Industries","Other Motor Vehicle Parts Manufacturing","Motor Vehicle Steering and Suspension Components (except Spring) Manufacturing","Fabricated Metal Products Industries","Textile Products Mills","Motor Vehicle Plastic Parts Manufacturing","Beverage Industries (excluding breweries)","Bakery Products Industries","Motor Vehicle Transmission and Power Train Parts Manufacturing","Dairy Products Industry","Meat Products Industries","Converted Paper Products Industry","Forestry","Rubber Products Industries","Other Manufacturing n.e.c.","Wood Products Industries","Other Pulp and Paper Manufacturing","Fruit and Vegetable Industries","Other Non-Metal Mines","Textile Mills","Resin and Synthetic Rubber Industries","Salt Mines","Copper, Nickel, Lead and Zinc Mines","Upstream Mining","Gold and Silver Mines","Paper Mills (except newsprint)","Potash Mines","Other Metal Mines","Industrial Gas Industry","Alkali and chlorine manufacturing","Paperboard Mills","All other basic inorganic chemical manufacturing","Other Chemical Manufacturing","Other Non-Ferrous Smelting and Refining","Iron Mines","Chemical fertilizer (except potash) manufacturing","Petrochemical Industry","Newsprint Mills","Pulp Mills","Primary Production of Alumina and Aluminum","Iron and Steel","Cement Industry","Petroleum Refining"],
+					axisx2 = ["Leather and Allied Products Industries","Tobacco Products Industries","Motor Vehicle Electrical and Electronic Equipment Manufacturing","Motor Vehicle Brake System Manufacturing","Salt Mines","Clothing Industries","Motor Vehicle Steering and Suspension Components (except Spring) Manufacturing","Motor Vehicle Seating and Interior Trim Manufacturing","Breweries Industries","Textile Products Mills","Motor Vehicle Gasoline Engine and Engine Parts Manufacturing","Motor Vehicle Transmission and Power Train Parts Manufacturing","Motor Vehicle Metal Stamping","Beverage Industries (excluding breweries)","Motor Vehicle Plastic Parts Manufacturing","Other Motor Vehicle Parts Manufacturing","Miscellaneous Manufacturing","Other Metal Mines","Textile Mills","Computer and Electronic Products Industries","Electrical Equipment and Components Industries","Dairy Products Industry","Printing and Related Support Activities","Bakery Products Industries","Industrial Gas Industry","Alkali and chlorine manufacturing","Rubber Products Industries","Furniture and Related Products Industries","Other Non-Metal Mines","Gold and Silver Mines","Fruit and Vegetable Industries","Converted Paper Products Industry","Meat Products Industries","Other Pulp and Paper Manufacturing","Machinery Industries","Motor Vehicle Industry","Forestry","Copper, Nickel, Lead and Zinc Mines","Iron Mines","Paperboard Mills","Resin and Synthetic Rubber Industries","Potash Mines","Wood Products Industries","All other basic inorganic chemical manufacturing","Other Chemical Manufacturing","Fabricated Metal Products Industries","Chemical fertilizer (except potash) manufacturing","Paper Mills (except newsprint)","Petrochemical Industry","Construction","Other Non-Ferrous Smelting and Refining","Pulp Mills","Cement Industry","Newsprint Mills","Primary Production of Alumina and Aluminum","Other Manufacturing n.e.c.","Iron and Steel","Petroleum Refining","Upstream Mining"],
+                    fin = function () {
+                        this.flag = r.g.popup(this.bar.x, this.bar.y,axisx[(this.bar.x-60)/17]+"\n"+this.bar.value+" tonnes CO2e/$M").insertBefore(this);
+                    },
+					fin2 = function () {
+                        this.flag = r2.g.popup(this.bar.x, this.bar.y,(axisx2[(this.bar.x-60)/17]+"\n"+this.bar.value+" tonnes CO2e").replace("\n0 ","\n <100000 ").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")).insertBefore(this);
+                    },
+                    fout = function () {
+                        this.flag.animate({opacity: 0}, 300, function () {this.remove();});
+                    };
+					
+                r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
+                
+				//X-axis labels
+				for (i = 0; i < axisx.length; i++) {
+					r.text(60+i*17,255,axisx[i]).attr({'text-anchor': "end"}).rotate(270,60+i*17,255);
+					r2.text(60+i*17,255,axisx2[i]).attr({'text-anchor': "end"}).rotate(270,60+i*17,255);
+				};
+				r.text(1080,250,"More\nPolluting");
+				r.text(30,250,"Less\nPolluting");
+				r2.text(1080,250,"More\nPolluting");
+				r2.text(30,250,"Less\nPolluting");
+                
+                r.g.barchart(50, 20, 1000, 250, [[44.32,45.28,48.96,52.16,54,65.76,71.24,71.76,72.28,81.15,85.44,87.2,88.32,103.36,105.2,124.08,125.81,128.11,141.44,155.44,160.08,169.57,176.22,193.32,207.48,229.19,245.64,253.5,269.73,282.24,301.84,320.54,325.71,330.6,409.46,446.54,503.5,567.27,679.46,790.23,1068.75,1162.8,1167.75,1382.12,1938.48,1938.48,1989.68,2027.76,2102.73,2478.94,2564.55,2747.58,2916.55,3092.85,3302.55,3408.87,3714.48,5853.12,7922.21]]).hover(fin, fout);
+				r2.g.barchart(50, 20, 1000, 250,[[0,0,0,0,100000,100000,100000,100000,200000,200000,200000,200000,200000,300000,300000,300000,300000,400000,400000,400000,400000,500000,500000,600000,600000,600000,600000,600000,700000,800000,800000,800000,1000000,1000000,1000000,1200000,1400000,1500000,1500000,1500000,1700000,1800000,1800000,1800000,2200000,2300000,2700000,2800000,2800000,4100000,4500000,5200000,5600000,7100000,12000000,15200000,15500000,20900000,37500000]]).hover(fin2, fout);
+            };
+        </script>
+		<style type="text/css">
+		body{font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;}
+		</style>
+    </head>
+    <body>
+		<img src="earth.jpg" style="float:left; padding-right: 20px" title="Image by aussiegall" alt="The earth is in our hands">
+		<h1 style="text-align: center;">Canadian Greenhouse Gas Emissions by Industrial Sector</h1>
+		<h2 style="text-align: center">2007 Canadian Greenhouse Gas Emission (CO2 equivalent)</h2>
+		<p>It can be seen that most of the pollution comes from a handful of industries. (Mouse over the bar graphs to see the amount of pollution for each industry.)</p>
+		<div id="holder2" style="height: 550px; width: 1100px"></div>
+		<div style="text-align: right">Source: <a href="http://oee.nrcan.gc.ca/english/">Natural Resources Canada: Office of Energy Efficiency</a></div>
+		<h2 style="text-align: center;">Canadian Greenhouse Gas Emissions Per Million $ GDP by Industrial Sector</h2>
+		<p>It can be argued that pollution is the result of keeping the economy going. While some heavily polluting industries, do make lots of profit, many pollute heavily without creating more GDP than alternative industries. The following graph shows which industries pollute more given the amount of dollars they generate for the economy. Shown below is the ratio of CO2 equivalent greenhouse gas emissions per million 2002 Canadian dollars. These statistics are for 2007.</p>
+        <div id="holder" style="height: 550px; width: 1100px"></div>
+		<div style="text-align: right">Source: <a href="http://oee.nrcan.gc.ca/english/">Natural Resources Canada: Office of Energy Efficiency</a></div>
+		<p>It can be seen that the most polluting industry, Upstream Mining, generates enough GDP to be near the middle of industries given the ratio of emissions to GDP. However some of the other top five most polluting industries, petroleum refining, iron and steel, and aluminum production, are also in the top five most polluting industries adjusted for GDP. Given that the ratio of pollution per GDP output is so high it does not make much economic or ecological sense to pursue these industries.</p>
+		<p>This project was entered into the <a href="http://apps4climateaction.gov.bc.ca/">Apps 4 Climate Action</a> competition put on by the province of British Columbia.
+		<div><a rel="license" href="http://creativecommons.org/licenses/by/2.5/ca/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/2.5/ca/88x31.png" /></a> by <a href="http://janulrich.org/">Jan Ulrich</a> 2010</div>
+    </body>
+</html>
